@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleBuffer {
     public class Buffer {
+        public static string VERSION = "1.1";
         static string before = "";
         static string after = "";
 
@@ -17,6 +18,10 @@ namespace ConsoleBuffer {
             after += t + "\n";
         }
 
+        public static void WriteLineCenter(string t) {
+            WriteLine(String.Format("{0," + (Console.WindowWidth / 2 + t.Length / 2 + t.Split('§').Length) + "}", t));
+        }
+
         public static void Clear() {
             if (before != after) {
                 Console.Clear();
@@ -26,7 +31,7 @@ namespace ConsoleBuffer {
                     String part = parts[i];
                     Console.ForegroundColor = HEXToColor(part.Substring(0,1));
                     Console.BackgroundColor = HEXToColor(part.Substring(1,1));
-                    Console.Write(parts[i].Substring(2));
+                    Console.Write(part.Substring(2));
                 }
                 before = after;
             }
@@ -109,6 +114,10 @@ namespace ConsoleBuffer {
 
         public static void SetColor(ConsoleColor foreground,ConsoleColor background) {
             after += "§" + ColorToHEX(foreground) + ColorToHEX(background);
+        }
+
+        public static string GetColorString(ConsoleColor foreground,ConsoleColor background) {
+            return "§" + ColorToHEX(foreground) + ColorToHEX(background);
         }
 
         public static string GetBuffer(bool old = false) {
